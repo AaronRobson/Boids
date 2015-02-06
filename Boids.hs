@@ -79,14 +79,13 @@ type Boids = [Boid]
 applyRule :: Boids -> Boids
 type Rules = [Rule]
 -}
-
 -- https://wiki.haskell.org/Compose
 compose :: [a -> a] -> a -> a
 compose fs v = foldl (flip (.)) id fs $ v
-
+{-
 applyRules :: [(Boids -> Boids)] -> Boids -> Boids
 applyRules = compose
-{-
+
 applyVelocity :: Location -> Velocity -> Location
 applyVelocity = undefined
 
