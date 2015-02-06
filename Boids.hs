@@ -71,7 +71,7 @@ data Velocity = Vector
 
 data Boid = Boid
   { currentLocation :: Location
-  ,  currentVelocity :: Velocity
+  , currentVelocity :: Velocity
   }
 
 type Boids = [Boid]
