@@ -57,18 +57,22 @@ pythagoras = sqrt . sum . (map square)
 class Vector v where
     vectorElements :: v -> [Scalar]
     lengthV :: v -> Scalar
+    addV :: v -> v -> v
 
 instance Vector Vector1d where
     vectorElements v = [x v]
     lengthV = pythagoras . vectorElements
+    addV v1 v2 = Vector1d $ (x v1) + (x v2)
 
 instance Vector Vector2d where
     vectorElements v = [x v, y v]
     lengthV = pythagoras . vectorElements
+    addV v1 v2 = Vector2d ((x v1) + (x v2)) ((y v1) + (y v2))
 
 instance Vector Vector3d where
     vectorElements v = [x v, y v, z v]
     lengthV = pythagoras . vectorElements
+    addV v1 v2 = Vector3d ((x v1) + (x v2)) ((y v1) + (y v2)) ((z v1) + (z v2))
 
 type Location1d = Vector1d
 type Location2d = Vector2d
