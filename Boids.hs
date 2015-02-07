@@ -49,17 +49,26 @@ class Z a where
 instance Z Vector3d where
     z = z3d
 
+pythagoras :: (Floating a) => [a] -> a
+pythagoras = sqrt . sum . (map square)
+  where
+    square x = x * x
+
 class Vector a where
     vectorElements :: a -> [Scalar]
+    lengthV :: a -> Scalar
 
 instance Vector Vector1d where
     vectorElements v = [x v]
+    lengthV = pythagoras . vectorElements
 
 instance Vector Vector2d where
     vectorElements v = [x v, y v]
+    lengthV = pythagoras . vectorElements
 
 instance Vector Vector3d where
     vectorElements v = [x v, y v, z v]
+    lengthV = pythagoras . vectorElements
 
 type Location1d = Vector1d
 type Location2d = Vector2d
