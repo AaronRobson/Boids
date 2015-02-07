@@ -14,13 +14,13 @@ data Vector1d = Vector1d
 data Vector2d = Vector2d
   { x2d :: Scalar
   , y2d :: Scalar
-  } deriving (Show)
+  } deriving (Show, Eq)
 
 data Vector3d = Vector3d
   { x3d :: Scalar
   , y3d :: Scalar
   , z3d :: Scalar
-  } deriving (Show)
+  } deriving (Show, Eq)
 
 class X a where
     x :: a -> Scalar
