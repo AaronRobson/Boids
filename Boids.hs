@@ -61,6 +61,18 @@ instance Vector Vector2d where
 instance Vector Vector3d where
     vectorElements v = [x v, y v, z v]
 
+type Location1d = Vector1d
+type Location2d = Vector2d
+type Location3d = Vector3d
+
+type Velocity1d = Vector1d
+type Velocity2d = Vector2d
+type Velocity3d = Vector3d
+
+type Acceleration1d = Vector1d
+type Acceleration2d = Vector2d
+type Acceleration3d = Vector3d
+
 {-
 --Default Number of dimensions.
 --type Vector = Vector2d
