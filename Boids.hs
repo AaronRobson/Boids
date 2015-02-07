@@ -54,9 +54,9 @@ pythagoras = sqrt . sum . (map square)
   where
     square x = x * x
 
-class Vector a where
-    vectorElements :: a -> [Scalar]
-    lengthV :: a -> Scalar
+class Vector v where
+    vectorElements :: v -> [Scalar]
+    lengthV :: v -> Scalar
 
 instance Vector Vector1d where
     vectorElements v = [x v]
