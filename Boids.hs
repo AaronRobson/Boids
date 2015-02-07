@@ -49,16 +49,16 @@ class Z a where
 instance Z Vector3d where
     z = z3d
 
-class VectorGeneral a where
+class Vector a where
     vectorElements :: a -> [Scalar]
 
-instance VectorGeneral Vector1d where
+instance Vector Vector1d where
     vectorElements v = [x v]
 
-instance VectorGeneral Vector2d where
+instance Vector Vector2d where
     vectorElements v = [x v, y v]
 
-instance VectorGeneral Vector3d where
+instance Vector Vector3d where
     vectorElements v = [x v, y v, z v]
 
 {-
