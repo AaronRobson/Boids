@@ -117,6 +117,33 @@ data Object3d = Object3d
   , velocity3d :: Vector3d
   } deriving (Show, Eq)
 
+class Object o where
+    step :: o -> o
+
+instance Object Object1d where
+    step o = Object1d {location1d = l', velocity1d = v'}
+      where
+        l = location1d o
+        v = velocity1d o
+        l' = l `addV` v
+        v' = v
+
+instance Object Object2d where
+    step o = Object2d {location2d = l', velocity2d = v'}
+      where
+        l = location2d o
+        v = velocity2d o
+        l' = l `addV` v
+        v' = v
+
+instance Object Object3d where
+    step o = Object3d {location3d = l', velocity3d = v'}
+      where
+        l = location3d o
+        v = velocity3d o
+        l' = l `addV` v
+        v' = v
+
 applyAcceleration1d :: Object1d -> Acceleration1d -> Object1d
 applyAcceleration1d o a = Object1d {location1d = l', velocity1d = v'}
     where
