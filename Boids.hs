@@ -49,6 +49,18 @@ class Z a where
 instance Z Vector3d where
     z = z3d
 
+baseScalar :: Scalar
+baseScalar = 0
+
+baseVector1d :: Vector1d
+baseVector1d = Vector1d baseScalar
+
+baseVector2d :: Vector2d
+baseVector2d = Vector2d baseScalar baseScalar
+
+baseVector3d :: Vector3d
+baseVector3d = Vector3d baseScalar baseScalar baseScalar
+
 pythagoras :: (Floating a) => [a] -> a
 pythagoras = sqrt . sum . (map square)
   where
