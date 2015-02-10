@@ -22,6 +22,30 @@ data Vector3d = Vector3d
   , z3d :: Scalar
   } deriving (Show, Eq)
 
+instance Num Vector1d where
+    (Vector1d x) + (Vector1d x') = Vector1d (x+x')
+    (Vector1d x) * (Vector1d x') = Vector1d (x*x')
+    abs (Vector1d x) = Vector1d (abs x)
+    signum (Vector1d x) = Vector1d (signum x)
+    fromInteger i = Vector1d (fromInteger i)
+    negate (Vector1d x) = Vector1d (negate x)
+
+instance Num Vector2d where
+    (Vector2d x y) + (Vector2d x' y') = Vector2d (x+x') (y+y')
+    (Vector2d x y) * (Vector2d x' y') = Vector2d (x*x') (y*y')
+    abs (Vector2d x y) = Vector2d (abs x) (abs y)
+    signum (Vector2d x y) = Vector2d (signum x) (signum y)
+    fromInteger i = Vector2d (fromInteger i) (fromInteger i)
+    negate (Vector2d x y) = Vector2d (negate x) (negate y)
+
+instance Num Vector3d where
+    (Vector3d x y z) + (Vector3d x' y' z') = Vector3d (x+x') (y+y') (z+z')
+    (Vector3d x y z) * (Vector3d x' y' z') = Vector3d (x*x') (y*y') (z*z')
+    abs (Vector3d x y z) = Vector3d (abs x) (abs y) (abs z)
+    signum (Vector3d x y z) = Vector3d (signum x) (signum y) (signum z)
+    fromInteger i = Vector3d (fromInteger i) (fromInteger i) (fromInteger i)
+    negate (Vector3d x y z) = Vector3d (negate x) (negate y) (negate z)
+
 class X a where
     x :: a -> Scalar
 
@@ -69,26 +93,18 @@ pythagoras = sqrt . sum . (map square)
 class Vector v where
     vectorElements :: v -> [Scalar]
     lengthV :: v -> Scalar
-    addV :: v -> v -> v
-    sumV :: [v] -> v
 
 instance Vector Vector1d where
     vectorElements v = [x v]
     lengthV = pythagoras . vectorElements
-    addV v1 v2 = Vector1d $ (x v1) + (x v2)
-    sumV = foldl addV baseVector1d
 
 instance Vector Vector2d where
     vectorElements v = [x v, y v]
     lengthV = pythagoras . vectorElements
-    addV v1 v2 = Vector2d ((x v1) + (x v2)) ((y v1) + (y v2))
-    sumV = foldl addV baseVector2d
 
 instance Vector Vector3d where
     vectorElements v = [x v, y v, z v]
     lengthV = pythagoras . vectorElements
-    addV v1 v2 = Vector3d ((x v1) + (x v2)) ((y v1) + (y v2)) ((z v1) + (z v2))
-    sumV = foldl addV baseVector3d
 
 type Location1d = Vector1d
 type Location2d = Vector2d
@@ -118,55 +134,55 @@ data Object3d = Object3d
   } deriving (Show, Eq)
 
 class Object o where
-    step :: o -> o
+    stepO :: o -> o
 
 instance Object Object1d where
-    step o = Object1d {location1d = l', velocity1d = v'}
+    stepO o = Object1d {location1d = l', velocity1d = v'}
       where
         l = location1d o
         v = velocity1d o
-        l' = l `addV` v
+        l' = l + v
         v' = v
 
 instance Object Object2d where
-    step o = Object2d {location2d = l', velocity2d = v'}
+    stepO o = Object2d {location2d = l', velocity2d = v'}
       where
         l = location2d o
         v = velocity2d o
-        l' = l `addV` v
+        l' = l + v
         v' = v
 
 instance Object Object3d where
-    step o = Object3d {location3d = l', velocity3d = v'}
+    stepO o = Object3d {location3d = l', velocity3d = v'}
       where
         l = location3d o
         v = velocity3d o
-        l' = l `addV` v
+        l' = l + v
         v' = v
 
 applyAcceleration1d :: Object1d -> Acceleration1d -> Object1d
 applyAcceleration1d o a = Object1d {location1d = l', velocity1d = v'}
     where
       v = velocity1d o
-      v' = v `addV` a
+      v' = v + a
       l = location1d o
-      l' = l `addV` v'
+      l' = l + v'
 
 applyAcceleration2d :: Object2d -> Acceleration2d -> Object2d
 applyAcceleration2d o a = Object2d {location2d = l', velocity2d = v'}
     where
       v = velocity2d o
-      v' = v `addV` a
+      v' = v + a
       l = location2d o
-      l' = l `addV` v'
+      l' = l + v'
 
 applyAcceleration3d :: Object3d -> Acceleration3d -> Object3d
 applyAcceleration3d o a = Object3d {location3d = l', velocity3d = v'}
     where
       v = velocity3d o
-      v' = v `addV` a
+      v' = v + a
       l = location3d o
-      l' = l `addV` v'
+      l' = l + v'
 
 {-
 --Default Number of dimensions.
