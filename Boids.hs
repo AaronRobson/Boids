@@ -210,6 +210,13 @@ indexes = (map fst) . enumerate
 eachItemWithRest :: [a] -> [(a,[a])]
 eachItemWithRest xs = catMaybes . (map (nthItemWithRest xs)) $ indexes xs
 
+isNeighbour :: Vector a => a -> a -> Bool
+isNeighbour x y = isClose
+  where
+    d = distanceV x y
+    isClose :: Bool
+    isClose = 5 < d
+
 {-
 --Default Number of dimensions.
 --type Vector = Vector2d
