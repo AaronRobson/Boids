@@ -5,6 +5,9 @@ where
 https://processing.org/examples/flocking.html
 -}
 
+import Data.List
+import Data.Maybe
+
 type Scalar = Double
 
 data Vector1d = Vector1d
@@ -187,6 +190,25 @@ applyAcceleration3d o a = Object3d {location3d = l', velocity3d = v'}
       v' = v + a
       l = location3d o
       l' = l + v'
+
+nthItemRemoved :: [a] -> Integer -> [a]
+nthItemRemoved xs i = map snd $ filter ((/=i) . fst) $ enumerate xs 
+
+nthItemWithRest :: [a] -> Integer -> Maybe (a,[a])
+nthItemWithRest [] _ = Nothing
+nthItemWithRest xs i = Just $ (genericIndex xs i,nthItemRemoved xs i)
+
+enumerate :: [a] -> [(Integer,a)]
+enumerate xs = enumerateChooseStart xs 0
+
+enumerateChooseStart :: [a] -> Integer -> [(Integer,a)]
+enumerateChooseStart xs i = zip [i..] xs
+
+indexes :: [a] -> [Integer]
+indexes = (map fst) . enumerate
+
+eachItemWithRest :: [a] -> [(a,[a])]
+eachItemWithRest xs = catMaybes . (map (nthItemWithRest xs)) $ indexes xs
 
 {-
 --Default Number of dimensions.
