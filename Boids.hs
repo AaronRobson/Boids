@@ -202,7 +202,7 @@ enumerate :: [a] -> [(Integer,a)]
 enumerate xs = enumerateChooseStart xs 0
 
 enumerateChooseStart :: [a] -> Integer -> [(Integer,a)]
-enumerateChooseStart xs i = zip [i..] xs
+enumerateChooseStart xs i = (zip [i..]) xs
 
 indexes :: [a] -> [Integer]
 indexes = (map fst) . enumerate
