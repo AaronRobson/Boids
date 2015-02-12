@@ -215,7 +215,7 @@ isNeighbour x y = isClose
   where
     d = distanceV x y
     isClose :: Bool
-    isClose = 5 < d
+    isClose = d <= 5
 
 {-
 --Default Number of dimensions.
