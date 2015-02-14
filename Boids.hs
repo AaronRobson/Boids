@@ -211,11 +211,7 @@ eachItemWithRest :: [a] -> [(a,[a])]
 eachItemWithRest xs = catMaybes . (map (nthItemWithRest xs)) $ indexes xs
 
 isNeighbour :: Vector a => a -> a -> Bool
-isNeighbour x y = isClose
-  where
-    d = distanceV x y
-    isClose :: Bool
-    isClose = d <= 5
+isNeighbour x y = (<=5) $ distanceV x y
 
 {-
 --Default Number of dimensions.
