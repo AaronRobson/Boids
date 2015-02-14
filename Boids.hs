@@ -217,6 +217,12 @@ isNeighbour x y = isClose
     isClose :: Bool
     isClose = d <= 5
 
+isNeighbourObjects :: Object a => a -> a -> Bool
+isNeighbourObjects x y = isNeighbour (location x) (location y)
+
+eachObjectWithNeighbours :: [a] -> [(a,[a])]
+eachObjectWithNeighbours = (filter isNeighbour) . eachItemWithRest
+
 {-
 --Default Number of dimensions.
 --type Vector = Vector2d
