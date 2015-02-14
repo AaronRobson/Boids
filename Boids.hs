@@ -84,6 +84,8 @@ data Object = Object
   , velocity :: Velocity
   } deriving (Show, Eq)
 
+type Objects = [Object]
+
 stepO o = Object {location = l', velocity = v'}
   where
     l = location o
@@ -120,6 +122,25 @@ eachItemWithRest xs = catMaybes . (map (nthItemWithRest xs)) $ indexes xs
 
 isNeighbour :: Location -> Location -> Bool
 isNeighbour x y = (<=5) $ distanceV x y
+
+isNeighbourO :: Object -> Object -> Bool
+isNeighbourO x y = isNeighbour (location x) (location y)
+
+eachLocationWithNeighbours :: [Location] -> [(Location,[Location])]
+eachLocationWithNeighbours = (map f) . eachItemWithRest
+  where
+    f :: (Location,[Location]) -> (Location,[Location])
+    f (x,xs) = (x,neighbours)
+      where
+        neighbours = filter (isNeighbour x) xs
+
+eachObjectWithNeighbours :: [Object] -> [(Object,[Object])]
+eachObjectWithNeighbours = (map f) . eachItemWithRest
+  where
+    f :: (Object,[Object]) -> (Object,[Object])
+    f (x,xs) = (x,neighbours)
+      where
+        neighbours = filter (isNeighbourO x) xs
 
 {-
 --Default Number of dimensions.
