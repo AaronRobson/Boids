@@ -155,14 +155,6 @@ isNeighbour neighbourhood x y = (<=neighbourhood) $ distanceV x y
 isNeighbourO :: Scalar -> Object -> Object -> Bool
 isNeighbourO neighbourhood x y = isNeighbour neighbourhood (location x) (location y)
 
-eachLocationWithNeighbours :: Scalar -> [Location] -> [(Location,[Location])]
-eachLocationWithNeighbours neighbourhood = (map f) . eachItemWithRest
-  where
-    f :: (Location,[Location]) -> (Location,[Location])
-    f (x,xs) = (x,neighbours)
-      where
-        neighbours = filter (isNeighbour neighbourhood x) xs
-
 objectWithNeighbours :: Scalar -> (Object,[Object]) -> (Object,[Object])
 objectWithNeighbours neighbourhood (x,xs) = (x,neighbours)
     where
