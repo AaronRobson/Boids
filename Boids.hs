@@ -19,6 +19,8 @@ data Vector = Vector1d Scalar
             | Vector3d Scalar Scalar Scalar
     deriving (Show, Eq)
 
+type Vectors = [Vector]
+
 x :: Vector -> Scalar
 x (Vector1d x) = x
 x (Vector2d x _) = x
@@ -91,8 +93,11 @@ pythagoras = sqrt . sum . (map square)
     square x = x * x
 
 type Location = Vector
+type Locations = [Location]
 type Velocity = Vector
+type Velocities = [Velocity]
 type Acceleration = Vector
+type Accelerations = [Acceleration]
 
 lengthV :: Vector -> Scalar
 lengthV = pythagoras . vectorToList
