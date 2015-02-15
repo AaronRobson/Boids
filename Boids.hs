@@ -192,11 +192,7 @@ calculateAccelerations :: Scalar -> Objects -> Accelerations
 calculateAccelerations neighbourhood = (map (calculateAcceleration neighbourhood)) . eachItemWithRest
 
 step :: Scalar -> Objects -> Objects
-step neighbourhood xs = map handleOne xNeighbours
-  where
-    xNeighbours = eachObjectWithNeighbours neighbourhood xs
-    handleOne :: (Object,[Object]) -> Object
-    handleOne (x,xs) = applyAcceleration x $ calculateAcceleration neighbourhood (x,xs)
+step neighbourhood xs = applyAccelerations $ zip xs $ calculateAccelerations neighbourhood xs
 
 defaultNumberOfDimensions = 2
 
