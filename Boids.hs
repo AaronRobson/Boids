@@ -172,10 +172,18 @@ meanLocation = meanV . (map location)
 meanVelocity :: [Object] -> Velocity
 meanVelocity = meanV . (map velocity)
 
+calculateAcceleration :: (Object,[Object]) -> Acceleration
+calculateAcceleration (x,xs) = undefined
+  where
+    meanNeighbourLocation = meanLocation xs
+    meanNeighbourVelocity = meanVelocity xs
+
 step :: Objects -> Objects
-step xs = undefined
+step xs = map handleOne xNeighbours
   where
     xNeighbours = eachObjectWithNeighbours xs
+    handleOne :: (Object,[Object]) -> Object
+    handleOne (x,xs) = applyAcceleration x $ calculateAcceleration (x,xs)
 
 defaultNumberOfDimensions = 2
 
