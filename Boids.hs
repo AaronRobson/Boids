@@ -163,6 +163,11 @@ eachLocationWithNeighbours neighbourhood = (map f) . eachItemWithRest
       where
         neighbours = filter (isNeighbour neighbourhood x) xs
 
+objectWithNeighbours :: Scalar -> (Object,[Object]) -> (Object,[Object])
+objectWithNeighbours neighbourhood (x,xs) = (x,neighbours)
+    where
+      neighbours = filter (isNeighbourO neighbourhood x) xs
+
 eachObjectWithNeighbours :: Scalar -> [Object] -> [(Object,[Object])]
 eachObjectWithNeighbours neighbourhood = (map f) . eachItemWithRest
   where
