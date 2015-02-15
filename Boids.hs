@@ -169,12 +169,7 @@ objectWithNeighbours neighbourhood (x,xs) = (x,neighbours)
       neighbours = filter (isNeighbourO neighbourhood x) xs
 
 eachObjectWithNeighbours :: Scalar -> [Object] -> [(Object,[Object])]
-eachObjectWithNeighbours neighbourhood = (map f) . eachItemWithRest
-  where
-    f :: (Object,[Object]) -> (Object,[Object])
-    f (x,xs) = (x,neighbours)
-      where
-        neighbours = filter (isNeighbourO neighbourhood x) xs
+eachObjectWithNeighbours neighbourhood = (map (objectWithNeighbours neighbourhood)) . eachItemWithRest
 
 meanV :: [Vector] -> Vector
 meanV [] = Vector1d baseScalar
