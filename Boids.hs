@@ -40,6 +40,23 @@ listToVector [x] = (Vector1d x)
 listToVector [x,y] = (Vector2d x y)
 listToVector [x,y,z] = (Vector3d x y z)
 
+makeSameDimensionPair :: (Vector,Vector) -> (Vector,Vector)
+makeSameDimensionPair (v1,v2) = (v1',v2')
+  where
+    z = zipWithPadding baseScalar baseScalar (vectorToList v1) (vectorToList v2)
+    v1' = listToVector $ map fst z
+    v2' = listToVector $ map snd z
+
+makeSameDimension :: [Vector] -> [Vector]
+makeSameDimension [] = []
+makeSameDimension [v] = [v]
+makeSameDimension [v1,v2] = [v1',v2']
+  where
+    (v1',v2') = makeSameDimensionPair (v1,v2)
+makeSameDimension (v1:v2:vs) = v1':(makeSameDimension (v2:vs))
+  where
+    [v1',v2'] = makeSameDimension [v1,v2]
+
 -- http://stackoverflow.com/questions/22403029/how-to-zip-lists-with-different-length
 zipWithPadding :: a -> b -> [a] -> [b] -> [(a,b)]
 zipWithPadding a b (x:xs) (y:ys) = (x,y) : zipWithPadding a b xs ys
@@ -62,6 +79,10 @@ instance Num Vector where
     signum v = applyUnaryVectorOperator signum v
     fromInteger i = Vector1d $ fromIntegral i
     negate v = applyUnaryVectorOperator negate v
+
+instance Fractional Vector where
+    fromRational r = Vector1d $ fromRational r
+    recip v = applyUnaryVectorOperator recip v
 
 pythagoras :: (Floating a) => [a] -> a
 pythagoras = sqrt . sum . (map square)
@@ -143,7 +164,7 @@ eachObjectWithNeighbours = (map f) . eachItemWithRest
 
 meanV :: [Vector] -> Vector
 meanV [] = Vector1d baseScalar
-meanV xs = undefined
+meanV xs = (sum xs) / (genericLength xs)
 
 meanLocation :: [Object] -> Location
 meanLocation = meanV . (map location)
