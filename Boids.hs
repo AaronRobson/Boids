@@ -141,27 +141,27 @@ indexes = (map fst) . enumerate
 eachItemWithRest :: [a] -> [(a,[a])]
 eachItemWithRest xs = catMaybes . (map (nthItemWithRest xs)) $ indexes xs
 
-isNeighbour :: Location -> Location -> Bool
-isNeighbour x y = (<=5) $ distanceV x y
+isNeighbour :: Scalar -> Location -> Location -> Bool
+isNeighbour neighbourhood x y = (<=neighbourhood) $ distanceV x y
 
-isNeighbourO :: Object -> Object -> Bool
-isNeighbourO x y = isNeighbour (location x) (location y)
+isNeighbourO :: Scalar -> Object -> Object -> Bool
+isNeighbourO neighbourhood x y = isNeighbour neighbourhood (location x) (location y)
 
-eachLocationWithNeighbours :: [Location] -> [(Location,[Location])]
-eachLocationWithNeighbours = (map f) . eachItemWithRest
+eachLocationWithNeighbours :: Scalar -> [Location] -> [(Location,[Location])]
+eachLocationWithNeighbours neighbourhood = (map f) . eachItemWithRest
   where
     f :: (Location,[Location]) -> (Location,[Location])
     f (x,xs) = (x,neighbours)
       where
-        neighbours = filter (isNeighbour x) xs
+        neighbours = filter (isNeighbour neighbourhood x) xs
 
-eachObjectWithNeighbours :: [Object] -> [(Object,[Object])]
-eachObjectWithNeighbours = (map f) . eachItemWithRest
+eachObjectWithNeighbours :: Scalar -> [Object] -> [(Object,[Object])]
+eachObjectWithNeighbours neighbourhood = (map f) . eachItemWithRest
   where
     f :: (Object,[Object]) -> (Object,[Object])
     f (x,xs) = (x,neighbours)
       where
-        neighbours = filter (isNeighbourO x) xs
+        neighbours = filter (isNeighbourO neighbourhood x) xs
 
 meanV :: [Vector] -> Vector
 meanV [] = Vector1d baseScalar
@@ -173,20 +173,19 @@ meanLocation = meanV . (map location)
 meanVelocity :: [Object] -> Velocity
 meanVelocity = meanV . (map velocity)
 
-calculateAcceleration :: (Object,[Object]) -> Acceleration
-calculateAcceleration (x,xs) = separationFactor + locationFactor + velocityFactor
+calculateAcceleration :: Scalar -> (Object,[Object]) -> Acceleration
+calculateAcceleration neighbourhood (x,xs) = separationFactor + locationFactor + velocityFactor
   where
     separationFactor = undefined
     locationFactor = ((location x) - (meanLocation xs)) / 100
     velocityFactor = ((velocity x) - (meanVelocity xs)) / 100
-    
 
-step :: Objects -> Objects
-step xs = map handleOne xNeighbours
+step :: Scalar -> Objects -> Objects
+step neighbourhood xs = map handleOne xNeighbours
   where
-    xNeighbours = eachObjectWithNeighbours xs
+    xNeighbours = eachObjectWithNeighbours neighbourhood xs
     handleOne :: (Object,[Object]) -> Object
-    handleOne (x,xs) = applyAcceleration x $ calculateAcceleration (x,xs)
+    handleOne (x,xs) = applyAcceleration x $ calculateAcceleration neighbourhood (x,xs)
 
 defaultNumberOfDimensions = 2
 
