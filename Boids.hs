@@ -142,6 +142,21 @@ eachObjectWithNeighbours = (map f) . eachItemWithRest
       where
         neighbours = filter (isNeighbourO x) xs
 
+meanV :: [Vector] -> Vector
+meanV [] = Vector1d baseScalar
+meanV xs = undefined
+
+meanLocation :: [Object] -> Location
+meanLocation = meanV . (map location)
+
+meanVelocity :: [Object] -> Velocity
+meanVelocity = meanV . (map velocity)
+
+step :: Objects -> Objects
+step xs = undefined
+  where
+    xOthers = eachItemWithRest xs
+
 {-
 --Default Number of dimensions.
 --type Vector = Vector2d
