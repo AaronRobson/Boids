@@ -3,6 +3,7 @@ where
 
 {-
 https://processing.org/examples/flocking.html
+http://www.red3d.com/cwr/boids/
 -}
 
 import Data.List
@@ -173,10 +174,12 @@ meanVelocity :: [Object] -> Velocity
 meanVelocity = meanV . (map velocity)
 
 calculateAcceleration :: (Object,[Object]) -> Acceleration
-calculateAcceleration (x,xs) = undefined
+calculateAcceleration (x,xs) = separationFactor + locationFactor + velocityFactor
   where
-    meanNeighbourLocation = meanLocation xs
-    meanNeighbourVelocity = meanVelocity xs
+    separationFactor = undefined
+    locationFactor = ((location x) - (meanLocation xs)) / 100
+    velocityFactor = ((velocity x) - (meanVelocity xs)) / 100
+    
 
 step :: Objects -> Objects
 step xs = map handleOne xNeighbours
