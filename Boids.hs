@@ -56,7 +56,6 @@ applyBinaryVectorOperator :: (Scalar -> Scalar -> Scalar) -> Scalar -> Scalar ->
 applyBinaryVectorOperator f b b' v v' = listToVector $ applyBinaryOperator f b' b' (vectorToList v) (vectorToList v')
 
 instance Num Vector where
-    --v + v' = listToVector $ (map (uncurry (+))) $ zipWithPadding baseScalar baseScalar (vectorToList v) (vectorToList v')
     v + v' = applyBinaryVectorOperator (+) 0 0 v v'
     v * v' = applyBinaryVectorOperator (*) 1 1 v v'
     abs v = applyUnaryVectorOperator abs v
@@ -157,21 +156,11 @@ step xs = undefined
   where
     xOthers = eachItemWithRest xs
 
-{-
---Default Number of dimensions.
---type Vector = Vector2d
+defaultNumberOfDimensions = 2
 
-data Location = Vector
-
-data Velocity = Vector
-
-data Boid = Boid
-  { currentLocation :: Location
-  , currentVelocity :: Velocity
-  }
-
+type Boid = Object
 type Boids = [Boid]
-
+{-
 applyRule :: Boids -> Boids
 type Rules = [Rule]
 -}
@@ -181,12 +170,6 @@ compose fs v = foldl (flip (.)) id fs $ v
 {-
 applyRules :: [(Boids -> Boids)] -> Boids -> Boids
 applyRules = compose
-
-applyVelocity :: Location -> Velocity -> Location
-applyVelocity = undefined
-
-applyVelocityMultiple :: Boids -> Boids
-applyVelocityMultiple = undefined
 -}
 main :: IO ()
 main = undefined
