@@ -154,7 +154,7 @@ meanVelocity = meanV . (map velocity)
 step :: Objects -> Objects
 step xs = undefined
   where
-    xOthers = eachItemWithRest xs
+    xNeighbours = eachObjectWithNeighbours xs
 
 defaultNumberOfDimensions = 2
 
