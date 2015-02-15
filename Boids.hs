@@ -184,9 +184,11 @@ meanVelocity = meanV . (map velocity)
 calculateAcceleration :: Scalar -> (Object,[Object]) -> Acceleration
 calculateAcceleration neighbourhood (x,xs) = separationFactor + locationFactor + velocityFactor
   where
+    neighbours :: [Object]
+    neighbours = snd $ objectWithNeighbours neighbourhood (x,xs)
     separationFactor = undefined
-    locationFactor = ((location x) - (meanLocation xs)) / 100
-    velocityFactor = ((velocity x) - (meanVelocity xs)) / 100
+    locationFactor = ((location x) - (meanLocation neighbours)) / 100
+    velocityFactor = ((velocity x) - (meanVelocity neighbours)) / 100
 
 calculateAccelerations :: Scalar -> Objects -> Accelerations
 calculateAccelerations neighbourhood = (map (calculateAcceleration neighbourhood)) . eachItemWithRest
