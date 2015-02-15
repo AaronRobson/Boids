@@ -188,6 +188,9 @@ calculateAcceleration neighbourhood (x,xs) = separationFactor + locationFactor +
     locationFactor = ((location x) - (meanLocation xs)) / 100
     velocityFactor = ((velocity x) - (meanVelocity xs)) / 100
 
+calculateAccelerations :: Scalar -> Objects -> Accelerations
+calculateAccelerations neighbourhood = (map (calculateAcceleration neighbourhood)) . eachItemWithRest
+
 step :: Scalar -> Objects -> Objects
 step neighbourhood xs = map handleOne xNeighbours
   where
