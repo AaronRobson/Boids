@@ -186,7 +186,9 @@ calculateAcceleration neighbourhood (x,xs) = separationFactor + locationFactor +
   where
     neighbours :: [Object]
     neighbours = snd $ objectWithNeighbours neighbourhood (x,xs)
-    separationFactor = undefined
+    othersWhichAreTooClose :: [Object]
+    othersWhichAreTooClose = snd $ objectWithNeighbours (neighbourhood / 4) (x,xs)
+    separationFactor = sum $ (map (subtract (location x))) . (map location) $ othersWhichAreTooClose
     locationFactor = ((location x) - (meanLocation neighbours)) / 100
     velocityFactor = ((velocity x) - (meanVelocity neighbours)) / 100
 
