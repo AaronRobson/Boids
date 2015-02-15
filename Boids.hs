@@ -127,6 +127,9 @@ applyAcceleration o a = Object {location = l', velocity = v'}
       l = location o
       l' = l + v'
 
+applyAccelerations :: [(Object,Acceleration)] -> Objects
+applyAccelerations = map (uncurry applyAcceleration)
+
 nthItemRemoved :: [a] -> Integer -> [a]
 nthItemRemoved xs i = map snd $ filter ((/=i) . fst) $ enumerate xs 
 
