@@ -206,4 +206,6 @@ applyRules :: [(Boids -> Boids)] -> Boids -> Boids
 applyRules = compose
 -}
 main :: IO ()
-main = undefined
+main = do
+    putStrLn "Boids Flocking Simulator"
+    putStrLn "...is under construction, please check back later."
